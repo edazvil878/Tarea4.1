@@ -97,7 +97,6 @@ app.put("/concesionarios/:id/coches/:cocheId", (request, response) => {
   response.json({ message: "Coche actualizado en el concesionario" });
 });
 
-
 // Actualizar un solo concesionario
 app.put("/concesionarios/:id", (request, response) => {
   const id = request.params.id;
@@ -116,7 +115,6 @@ app.delete("/concesionarios/:id/coches/:cocheId", (request, response) => {
   cochesDelConcesionario.splice(idCoche, 1);
   response.json({ message: "Coche borrado del concesionario" });
 });
-
 
 // Borrar un elemento del array concesionario
 app.delete("/concesionarios/:id", (request, response) => {
