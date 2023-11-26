@@ -23,9 +23,6 @@ app.listen(port, () => {
   console.log(`Servidor desplegado en puerto: ${port}`);
 });
 
-//Tenemos una variable concesionarios, que es un array de concesionarios. Cada concesionario tiene los atributos nombre, dirección y un listado de coches.
-//Cada coche del listado tiene los atributos: el modelo de coche, cv que es la potencia del coche y precio.
-
 // Definimos una estructura de datos
 // (temporal hasta incorporar una base de datos)
 let coches = [
@@ -47,9 +44,20 @@ app.get("/coches", (request, response) => {
   response.json(coches);
 });
 
+// Lista todos los concesionarios
+app.get("/concesionarios", (request, response) => {
+  response.json(concesionarios);
+});
+
 // Añadir un nuevo coche
 app.post("/coches", (request, response) => {
   coches.push(request.body);
+  response.json({ message: "ok" });
+});
+
+// Añadir un nuevo concesionario
+app.post("/concesionarios", (request, response) => {
+  concesionarios.push(request.body);
   response.json({ message: "ok" });
 });
 
@@ -60,6 +68,13 @@ app.get("/coches/:id", (request, response) => {
   response.json({ result });
 });
 
+// Obtener un solo concesionario
+app.get("/concesionarios/:id", (request, response) => {
+  const id = request.params.id;
+  const result = concesionarios[id];
+  response.json({ result });
+});
+
 // Actualizar un solo coche
 app.put("/coches/:id", (request, response) => {
   const id = request.params.id;
@@ -67,10 +82,25 @@ app.put("/coches/:id", (request, response) => {
   response.json({ message: "ok" });
 });
 
-// Borrar un elemento del array
+// Actualizar un solo concesionario
+app.put("/concesionarios/:id", (request, response) => {
+  const id = request.params.id;
+  concesionarios[id] = request.body;
+  response.json({ message: "ok" });
+});
+
+// Borrar un elemento del array coche
 app.delete("/coches/:id", (request, response) => {
   const id = request.params.id;
   coches = coches.filter((item) => coches.indexOf(item) !== id);
+
+  response.json({ message: "ok" });
+});
+
+// Borrar un elemento del array concesionario
+app.delete("/concesionarios/:id", (request, response) => {
+  const id = request.params.id;
+  concesionarios = concesionarios.filter((item) => concesionarios.indexOf(item) !== id);
 
   response.json({ message: "ok" });
 });
