@@ -23,11 +23,23 @@ app.listen(port, () => {
   console.log(`Servidor desplegado en puerto: ${port}`);
 });
 
+//Tenemos una variable concesionarios, que es un array de concesionarios. Cada concesionario tiene los atributos nombre, dirección y un listado de coches.
+//Cada coche del listado tiene los atributos: el modelo de coche, cv que es la potencia del coche y precio.
+
 // Definimos una estructura de datos
 // (temporal hasta incorporar una base de datos)
 let coches = [
-  { marca: "Renault", modelo: "Clio" },
-  { marca: "Nissan", modelo: "Skyline R34" },
+  { modelo: "Clio", cv: 500, precio: 18000 },
+  { modelo: "Nissan", cv: 300, precio: 20000 },
+  { modelo: "Dacia", cv: 250, precio: 22000 },
+  { modelo: "Ferrrari", cv: 700, precio: 200000 },
+];
+
+// Creamos el array de concesionarios
+let concesionarios = [
+  { nombre: "concesionario1", direccion: "la paz", coche: [coches[1], coches[3]] },
+  { nombre: "concesionario2", direccion: "larga", coche: [coches[2], coches[0]] },
+  { nombre: "concesionario3", direccion: "corta", coche: coches[1] },
 ];
 
 // Lista todos los coches
