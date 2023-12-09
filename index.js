@@ -232,6 +232,7 @@ app.delete("/concesionarios/:id/coches/:cocheId", async (request, response) => {
             _id: new ObjectId(concesionarioId),
         });
 
+        
         let cocheEncontrado = null;
         for (let i = 0; i < concesionarios.coches.length; i++) {
             if (i == parseInt(cocheID)) {
@@ -252,7 +253,7 @@ app.delete("/concesionarios/:id/coches/:cocheId", async (request, response) => {
         if (res.modifiedCount < 1) {
             throw "Nothing modified";
         }
-        
+
         response.json({ message: "ok" });
 
     } catch (error) {
