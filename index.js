@@ -85,7 +85,7 @@ app.post("/concesionarios", async (request, response) => {
 });
 
 // Obtener un concesionario
-app.post("/concesionarios/:id", async (request, response) => {
+app.get("/concesionarios/:id", async (request, response) => {
     const concesionarioID = request.params.id;
     try {
         const concesionarioBuscado = await coleccionesConcesionario.findOne({
@@ -177,10 +177,10 @@ app.post("/concesionarios/:id/coches", async (request, response) => {
 //Obtiene el coche cuyo id sea cocheId, del concesionario pasado por id
 app.get("/concesionarios/:id/coches/:cocheId", async (request, response) => {
     const concesionarioID = request.params.id;
-    const cocheID = request.params.id;
+    const cocheID = request.params.cocheId;
 
     try {
-        const concesionarios = await concesionarioCollection.findOne({
+        const concesionarios = await coleccionesConcesionario.findOne({
             _id: new ObjectId(concesionarioID),
         });
 
@@ -204,10 +204,10 @@ app.get("/concesionarios/:id/coches/:cocheId", async (request, response) => {
 //Actualiza el coche cuyo id sea cocheId, del concesionario pasado por id
 app.put("/concesionarios/:id/coches/:cocheId", async (request, response) => {
     const concesionarioID = request.params.id;
-    const cocheID = request.params.id;
+    const cocheID = request.params.cocheId;
     const cocheNuevo = request.body;
     try {
-        const concesionarios = await concesionarioCollection.updateOne(
+        const concesionarios = await coleccionesConcesionario.updateOne(
             { _id: new ObjectId(concesionarioID) },
             {
                 $set: {
@@ -225,11 +225,11 @@ app.put("/concesionarios/:id/coches/:cocheId", async (request, response) => {
 //Borra el coche cuyo id sea cocheId, del concesionario pasado por id
 app.delete("/concesionarios/:id/coches/:cocheId", async (request, response) => {
     const concesionarioID = request.params.id;
-    const cocheID = request.params.id;
+    const cocheID = parseInt(request.params.cocheId);
 
     try {
-        const concesionarios = await concesionarioCollection.findOne({
-            _id: new ObjectId(concesionarioId),
+        const concesionarios = await coleccionesConcesionario.findOne({
+            _id: new ObjectId(concesionarioID),
         });
 
         let cocheEncontrado = null;

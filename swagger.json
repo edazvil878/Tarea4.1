@@ -9,48 +9,84 @@
         "Coche": {
             "type": "object",
             "properties": {
-                "marca": {
-                    "type": "string"
-                },
                 "modelo": {
                     "type": "string"
+                },
+                "cv": {
+                    "type": "integer"
+                },
+                "precio": {
+                    "type": "integer"
                 }
             },
             "required": [
-                "marca",
-                "modelo"
+                "modelo",
+                "cv",
+                "precio"
+            ]
+        },
+        "Concesionario": {
+            "type": "object",
+            "properties": {
+                "nombre": {
+                    "type": "string"
+                },
+                "direccion": {
+                    "type": "string"
+                },
+                "coches": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/Coche"
+                    }
+                }
+            },
+            "required": [
+                "nombre",
+                "direccion",
+                "coches"
             ]
         }
     },
     "paths": {
-        "/coches": {
+        "/concesionarios": {
             "get": {
-                "summary": "Fetch coches",
-                "operationId": "getCoches",
+                "summary": "Get all concesionarios",
                 "responses": {
                     "200": {
-                        "description": "List of coches.",
+                        "description": "List of concesionarios.",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Coche"
+                                "$ref": "#/definitions/Concesionario"
                             }
                         }
                     }
                 }
             },
             "post": {
-                "summary": "Create coches",
-                "operationId": "createCoche",
+                "summary": "Create concesionario",
                 "consumes": [
                     "application/json"
                 ],
                 "parameters": [
                     {
                         "in": "body",
-                        "name": "coche",
+                        "name": "concesionario",
                         "schema": {
-                            "$ref": "#/definitions/Coche"
+                            "$ref": "#/definitions/Concesionario"
+                        },
+                        "example": {
+                            "nombre": "concesionario1",
+                            "direccion": "dirección inventada",
+                            "coches": [
+                                {
+                                    "modelo": "hyundai",
+                                    "cv": 2000,
+                                    "precio": 34000
+                                }
+                            ]
                         }
                     }
                 ],
@@ -61,30 +97,29 @@
                 }
             }
         },
-        "/coches/{id}": {
+        "/concesionarios/{id}": {
             "get": {
-                "summary": "Get a coche by id.",
-                "operationId": "getCoche",
+                "summary": "Get a concesionario by id.",
                 "parameters": [
                     {
                         "in": "path",
                         "name": "id",
                         "required": true,
-                        "type": "integer"
+                        "type": "string"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Fetch coche.",
+                        "description": "Get concesionario.",
                         "schema": {
-                            "$ref": "#/definitions/Coche"
+                            "$ref": "#/definitions/Concesionario"
                         }
                     }
                 }
             },
             "put": {
-                "summary": "Update coches",
-                "operationId": "updateCoches",
+                "summary": "Update Concesionario",
+                "operationId": "updateConcesionario",
                 "consumes": [
                     "application/json"
                 ],
@@ -92,6 +127,141 @@
                     {
                         "in": "path",
                         "name": "id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "concesionario",
+                        "schema": {
+                            "$ref": "#/definitions/Concesionario"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ message: 'ok' }"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete concesionario.",
+                "operationId": "deleteConcesionario",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ message: 'ok' }"
+                    }
+                }
+            }
+        },
+        "/concesionarios/{id}/coches": {
+            "get": {
+                "summary": "Get all cars de un concesionario",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "lista de coches",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Coche"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create car",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "coche",
+                        "schema": {
+                            "$ref": "#/definitions/Coche"
+                        },
+                        "example": {
+                            "modelo": "hyundai",
+                            "cv": 2000,
+                            "precio": 34000
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ message: 'ok' }"
+                    }
+                }
+            }
+        },
+        "/concesionarios/{id}/coches/{cocheID}": {
+            "get": {
+                "summary": "Get a car by id.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "cocheID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "car by id",
+                        "schema": {
+                            "$ref": "#/definitions/Coche"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update one car",
+                "operationId": "updateCar",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "cocheID",
                         "required": true,
                         "type": "integer"
                     },
@@ -110,8 +280,8 @@
                 }
             },
             "delete": {
-                "summary": "Delete Coche.",
-                "operationId": "deleteCoches",
+                "summary": "Delete one car",
+                "operationId": "deleteCar",
                 "consumes": [
                     "application/json"
                 ],
@@ -119,6 +289,12 @@
                     {
                         "in": "path",
                         "name": "id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "cocheID",
                         "required": true,
                         "type": "integer"
                     }
