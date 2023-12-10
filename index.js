@@ -18,7 +18,7 @@ const app = express();
 // Indicamos que la aplicación puede recibir JSON (API Rest)
 app.use(express.json());
 
-//DEfinimos la ruta para el APIDOCS
+//Definimos la ruta para el APIDOCS
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Indicamos el puerto en el que vamos a desplegar la aplicación
@@ -41,13 +41,14 @@ let coleccionesConcesionario = undefined;
 
 async function connectBD() {
     try {
+        // Conectamos a la base de datos
         await client.connect();
         database = client.db("concesionariosDB");
         coleccionesConcesionario = database.collection("concesionarios");
     } catch (e) {
         console.error(e);
         console.log("ERROR de conexión a la BBDD");
-        // Ensures that the client will close when you finish/error
+        // Aseguramos que el cliente se cerrará en caso de error
         await client.close();
     } finally {
     }
